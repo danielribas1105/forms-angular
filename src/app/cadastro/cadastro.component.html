@@ -18,10 +18,10 @@
       />
       <div *ngIf="(nome?.invalid && nome?.touched) || nome?.dirty">
         <app-message *ngIf="nome?.errors?.['required']"
-          mensagem="O campo nome não pode ser vazio!!!">
+          mensagem="O campo nome não pode ser vazio!">
         </app-message>
         <app-message *ngIf="nome?.errors?.['minlength']"
-          mensagem="O nome tem que ter no mínimo 3 caracteres!!!">
+          mensagem="O nome tem que ter no mínimo 3 caracteres!">
         </app-message>
       </div>
     </div>
@@ -36,8 +36,17 @@
           class="campo__escrita"
           ngModel
           required
-          #dataNasc="ngModel"
+          maiorIdadeValidator
+          #nascimento="ngModel"
         />
+        <div *ngIf="(nascimento?.invalid && nascimento?.touched) || nascimento?.dirty">
+          <app-message *ngIf="nascimento?.errors?.['required']"
+            mensagem="O campo data não pode ser vazio!">
+          </app-message>
+          <app-message *ngIf="nascimento?.errors?.['maiorIdadeValidator']"
+            mensagem="O usuário deve ter mais de 18 anos!">
+          </app-message>
+        </div>
       </div>
       <div class="formulario__campo">
       <!-- CAMPO TELEFONE -->
@@ -55,10 +64,10 @@
         />
         <div *ngIf="(telefone?.invalid && telefone?.touched) || telefone?.dirty">
           <app-message *ngIf="telefone?.errors?.['required']"
-            mensagem="O campo telefone não pode ser vazio!!!"
+            mensagem="O campo telefone não pode ser vazio!"
           ></app-message>
           <app-message *ngIf="telefone?.errors?.['pattern']"
-            mensagem="Telefone inválido. Utilize o formato xx xxxxx-xxxx!!!"
+            mensagem="Telefone inválido. Utilize o formato xx xxxxx-xxxx!"
           ></app-message>
         </div>
       </div>
@@ -78,7 +87,7 @@
       />
       <div *ngIf="(email?.invalid && email?.touched) || email?.dirty">
         <app-message *ngIf="email?.errors?.['required']"
-          mensagem="O campo e-mail não pode ser vazio!!!"
+          mensagem="O campo e-mail não pode ser vazio!"
         ></app-message>
         <app-message *ngIf="email?.errors?.['pattern']"
           mensagem="E-mail inválido!!!"
@@ -86,42 +95,107 @@
       </div>
     </div>
 
-
     <h3 class="principal__subtitulo">Endereço</h3>
 
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="cep">CEP</label>
-      <input name="cep" id="cep" class="campo__escrita" />
-      <div id="erro"></div>
+      <input
+        name="cep"
+        id="cep"
+        class="campo__escrita"
+        placeholder="XXXXX-XXX"
+        ngModel
+        required
+        #cep="ngModel"
+        pattern="^(\d{5})(-?\d{3})$"
+        minlength="8"
+        maxlength="9"
+        (blur)="consultaCep($event, f)"
+        validadorCep
+      />
+      <div *ngIf="(cep?.invalid && cep?.touched) || cep?.dirty">
+        <app-message *ngIf="cep?.errors?.['required']"
+          mensagem="O campo CEP não pode ser vazio!"
+        ></app-message>
+        <app-message *ngIf="cep?.errors?.['pattern']"
+          mensagem="CEP inválido!"
+        ></app-message>
+        <app-message *ngIf="cep?.errors?.['validadorCep']"
+          mensagem="CEP inexistente!"
+        ></app-message>
+      </div>
     </div>
 
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="endereco">Endereço</label>
-      <input name="endereco" id="endereco" class="campo__escrita" />
+      <input
+        name="endereco"
+        id="endereco"
+        class="campo__escrita"
+        ngModel
+        required
+        #endereco="ngModel"
+      />
+      <div *ngIf="(endereco?.invalid && endereco?.touched) || endereco?.dirty">
+        <app-message *ngIf="endereco?.errors?.['required']"
+          mensagem="O campo endereco não pode ser vazio!"
+        ></app-message>
+      </div>
     </div>
     <div class="formulario__dupla">
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="numero">Numero</label>
-        <input name="numero" id="numero" class="campo__escrita" />
+        <input
+          name="numero"
+          id="numero"
+          class="campo__escrita"
+          ngModel
+          required
+          #numero="ngModel"
+        />
+        <div *ngIf="(numero?.invalid && numero?.touched) || numero?.dirty">
+          <app-message *ngIf="numero?.errors?.['required']"
+            mensagem="O campo numero não pode ser vazio!"
+          ></app-message>
+        </div>
       </div>
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="complemento">Complemento</label>
-        <input name="complemento" id="complemento" class="campo__escrita" />
+        <input name="complemento" id="complemento" class="campo__escrita" ngModel />
       </div>
     </div>
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="bairro">Bairro</label>
-      <input name="bairro" id="bairro" class="campo__escrita" />
+      <input
+        name="bairro"
+        id="bairro"
+        class="campo__escrita"
+        ngModel
+        required
+        #bairro="ngModel"
+      />
+      <div *ngIf="(bairro?.invalid && bairro?.touched) || bairro?.dirty">
+        <app-message *ngIf="bairro?.errors?.['required']"
+          mensagem="O campo bairro não pode ser vazio!"
+        ></app-message>
+      </div>
     </div>
     <div class="formulario__dupla">
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="cidade">Cidade</label>
-        <input name="cidade" id="cidade" class="campo__escrita" />
+        <input
+          name="cidade"
+          id="cidade"
+          class="campo__escrita"
+          ngModel
+          required
+          #cidade="ngModel"
+        />
       </div>
 
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="estado">UF</label>
-        <select id="estado" name="estado" class="campo__escrita">
+        <select id="estado" name="estado" class="campo__escrita" ngModel #estado="ngModel">
           <option value="AC">Acre</option>
           <option value="AL">Alagoas</option>
           <option value="AP">Amapá</option>
